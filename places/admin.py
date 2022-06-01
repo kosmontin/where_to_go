@@ -9,4 +9,4 @@ class PlaceAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    pass
+    ordering = ['place', 'num_order']
