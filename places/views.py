@@ -1,6 +1,33 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
+from .models import Place
 
 
-# Create your views here.
 def index(request):
-    return render(request, 'places/index.html')
+    places = Place.objects.all()
+    serialized_places = {"type": "FeatureCollection", "features": []}
+    for place in places:
+        serialized_places["features"].append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [float(place.lng), float(place.lat)]
+            },
+            "properties": {
+                "title": place.title,
+                "placeId": place.pk,
+                "detailsUrl": f"/place_details/{place.pk}/"
+            }
+        })
+    return render(request, 'places/index.html', {'places': serialized_places})
+
+
+def get_place_details(request, place_id):
+    place = get_object_or_404(Place, pk=place_id)
+    serialized_place_details = {
+        "title": place.title,
+        "imgs": [img.image.url for img in place.place_images.all()],
+        "description_short": place.description_short,
+        "description_long": place.description_long
+    }
+    return JsonResponse(serialized_place_details)

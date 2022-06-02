@@ -25,7 +25,8 @@ class Photo(models.Model):
         'Порядковый номер', help_text='1 - обложка достопримечательности')
 
     image = models.ImageField('Картинка', upload_to='uploads/')
-    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    place = models.ForeignKey(
+        Place, on_delete=models.CASCADE, related_name='place_images')
 
     class Meta:
         verbose_name = 'Фотография'
