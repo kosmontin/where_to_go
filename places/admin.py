@@ -2,9 +2,14 @@ from django.contrib import admin
 from .models import Place, Photo
 
 
+class PhotoInline(admin.TabularInline):
+    model = Photo
+    ordering = ['num_order']
+
+
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
-    pass
+    inlines = [PhotoInline]
 
 
 @admin.register(Photo)
