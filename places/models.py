@@ -15,6 +15,7 @@ class Place(models.Model):
     class Meta:
         verbose_name = 'Место'
         verbose_name_plural = 'Места'
+        ordering = ['title']
 
     def __str__(self):
         return self.title
@@ -22,7 +23,9 @@ class Place(models.Model):
 
 class Photo(models.Model):
     num_order = models.PositiveSmallIntegerField(
-        'Порядковый номер', help_text='1 - обложка достопримечательности')
+        'Порядковый номер', help_text='1 - обложка достопримечательности',
+        db_index=True, default=0
+    )
 
     image = models.ImageField('Картинка', upload_to='uploads/')
     place = models.ForeignKey(
@@ -31,6 +34,7 @@ class Photo(models.Model):
     class Meta:
         verbose_name = 'Фотография'
         verbose_name_plural = 'Фотографии мест'
+        ordering = ['num_order']
 
     def __str__(self):
         return f'{self.num_order} {self.place.title}'
