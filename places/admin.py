@@ -11,9 +11,10 @@ class PhotoInline(SortableInlineAdminMixin, admin.TabularInline):
     readonly_fields = ['preview']
 
     def preview(self, obj):
+        image_url = obj.image.url
         return format_html(
-            f'<a href="{obj.image.url}" target="_blank">'
-            f'<img src="{obj.image.url}" style="max-height: 200px;"></a>'
+            f'<a href="{image_url}" target="_blank">'
+            f'<img src="{image_url}" style="max-height: 200px;"></a>'
         )
 
 
