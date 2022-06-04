@@ -6,7 +6,7 @@
 
 ![](./gitbook/site.png)
 
-[Демка сайта](https://www.ru).
+[Демка сайта](https://kosmontin.pythonanywhere.com/).
 
 ## Как запустить
 
