@@ -117,6 +117,7 @@ STATIC_ROOT = env.path(
     'STATIC_ROOT', os.path.join(BASE_DIR, 'places', 'static')
 )
 
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = env.path('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 
