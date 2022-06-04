@@ -15,7 +15,7 @@ class Place(models.Model):
     class Meta:
         verbose_name = 'Место'
         verbose_name_plural = 'Места'
-        ordering = ['title']
+        ordering = ['pk']
 
     def __str__(self):
         return self.title
