@@ -47,6 +47,7 @@ def get_place_from_json(url):
         lat=place_json['coordinates']['lat']
     )
     if is_added_place:
+        os.makedirs(os.path.join(settings.MEDIA_ROOT, 'tmp'), exist_ok=True)
         for image_url in place_json['imgs']:
             image_filename = os.path.basename(
                 unquote(urlparse(image_url).path))
