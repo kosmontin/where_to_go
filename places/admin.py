@@ -22,16 +22,3 @@ class PhotoInline(SortableInlineAdminMixin, admin.TabularInline):
 class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
     search_fields = ['title']
     inlines = [PhotoInline]
-
-
-# @admin.register(Photo)
-# class PhotoAdmin(admin.ModelAdmin):
-#     ordering = ['place', 'num_order']
-#
-#     fields = ['num_order', 'image', 'preview', 'place']
-#     readonly_fields = ['preview']
-#
-#     def preview(self, obj):
-#         return format_html(
-#             f'<img src="{obj.image.url}" style="max-height: 200px;"></a>'
-#         )
