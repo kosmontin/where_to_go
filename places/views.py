@@ -27,7 +27,7 @@ def get_place_details(request, place_id):
     place = get_object_or_404(Place, pk=place_id)
     serialized_place_details = {
         "title": place.title,
-        "imgs": [img.image.url for img in place.place_images.all()],
+        "imgs": [img.image.url for img in place.images.all()],
         "description_short": place.description_short,
         "description_long": place.description_long
     }
