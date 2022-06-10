@@ -38,17 +38,19 @@ class Command(BaseCommand):
 def get_place_from_json(url):
     response = requests.get(url)
     response.raise_for_status()
-    place_json = response.json()
+    deserialized_place = response.json()
     added_place, is_added_place = Place.objects.get_or_create(
-        title=place_json['title'],
-        description_short=place_json['description_short'],
-        description_long=place_json['description_long'],
-        lng=place_json['coordinates']['lng'],
-        lat=place_json['coordinates']['lat']
+        title=deserialized_place['title'],
+        lng=deserialized_place['coordinates']['lng'],
+        defaults={
+            'description_short': deserialized_place['description_short'],
+            'description_long': deserialized_place['description_long'],
+            'lat': deserialized_place['coordinates']['lat'],
+        },
     )
     if is_added_place:
         os.makedirs(os.path.join(settings.MEDIA_ROOT, 'tmp'), exist_ok=True)
-        for image_url in place_json['imgs']:
+        for image_url in deserialized_place['imgs']:
             image_filename = os.path.basename(
                 unquote(urlparse(image_url).path))
             image_path = os.path.join(
