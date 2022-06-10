@@ -1,12 +1,10 @@
 import os.path
 from urllib.parse import unquote, urlparse
-from urllib.request import urlretrieve
 
 import requests
-from django.core.files.images import ImageFile
+from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
 from places.models import Photo, Place
-from where_to_go import settings
 
 
 class Command(BaseCommand):
@@ -49,19 +47,13 @@ def get_place_from_json(url):
         },
     )
     if is_added_place:
-        os.makedirs(os.path.join(settings.MEDIA_ROOT, 'tmp'), exist_ok=True)
         for image_url in deserialized_place['imgs']:
             image_filename = os.path.basename(
                 unquote(urlparse(image_url).path))
-            image_path = os.path.join(
-                settings.MEDIA_ROOT, 'tmp', image_filename)
-            urlretrieve(image_url, image_path)
-
+            content = requests.get(image_url).content
             photo = Photo()
             photo.place = added_place
-            with open(image_path, 'rb') as dl_file:
-                photo.image.save(image_filename, ImageFile(dl_file))
-            os.remove(image_path)
+            photo.image.save(image_filename, ContentFile(content))
 
     return added_place.title, is_added_place
 
