@@ -39,11 +39,11 @@ def get_place_from_json(url):
     deserialized_place = response.json()
     added_place, is_added_place = Place.objects.get_or_create(
         title=deserialized_place['title'],
-        lng=deserialized_place['coordinates']['lng'],
         defaults={
             'description_short': deserialized_place['description_short'],
             'description_long': deserialized_place['description_long'],
             'lat': deserialized_place['coordinates']['lat'],
+            'lng': deserialized_place['coordinates']['lng'],
         },
     )
     if is_added_place:
